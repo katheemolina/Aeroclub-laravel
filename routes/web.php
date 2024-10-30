@@ -36,3 +36,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+use App\Http\Controllers\TestController;
+
+Route::get('/articulos', [TestController::class, 'getArticulos']);
