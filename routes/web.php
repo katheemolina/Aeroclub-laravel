@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\MovimientoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +40,5 @@ require __DIR__.'/auth.php';
 use App\Http\Controllers\TestController;
 
 Route::get('/articulos', [TestController::class, 'getArticulos']);
+
+Route::resource('movimientos', App\Http\Controllers\MovimientoController::class);
