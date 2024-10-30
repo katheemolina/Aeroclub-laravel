@@ -53,7 +53,8 @@
         "regex": "^_(?!query)"
     },
     "dependencies": {
-        "qs": "~6.9.7"
+        "qs": "~6.9.7",
+        "ziggy-js": "file:"
     },
     "devDependencies": {
         "jsdom": "^25.0.1",
