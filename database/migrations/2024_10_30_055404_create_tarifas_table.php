@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('tarifas', function (Blueprint $table) {
             $table->id('id_tarifa');
             $table->date('fecha_vigencia');
-            $table->decimal('importe', 10, 2);
-            $table->boolean('estado');
+            $table->enum('tipo_tarifa', ['Vuelo', 'Combustible','Instruccion']);
+            $table->decimal('importe_vuelo', 10, 2);
+            $table->decimal('importe_combustible', 10, 2);
+            $table->decimal('importe_instruccion', 10, 2);
             $table->timestamps();
         });
     }
