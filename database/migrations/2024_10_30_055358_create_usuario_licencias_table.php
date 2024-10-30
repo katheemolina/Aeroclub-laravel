@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('usuario_licencias', function (Blueprint $table) {
             $table->unsignedBigInteger('id_usuario');
             $table->unsignedBigInteger('id_licencia');
-            $table->boolean('estado');
+            $table->enum('estado', ['vigente', 'no vigente']);
             $table->timestamps();
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
-            $table->foreign('id_licencia')->references('id_licencia')->on('licencias');
+
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('id_licencia')->references('id')->on('licencias')->onDelete('cascade');
         });
     }
 

@@ -12,11 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pagos_movimientos', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_movimiento');
-            $table->unsignedBigInteger('id_movimiento_pago');
+            $table->id(); // ID autoincrementable
+            $table->unsignedBigInteger('id_movimiento'); // ID del movimiento
+            $table->unsignedBigInteger('id_movimiento_pago')->nullable(); // ID del movimiento de pago que permite NULL
+            
             $table->timestamps();
-            // $table->foreign('id_movimiento')->references('id_movimiento')->on('movimientos');
-            $table->foreign('id_movimiento_pago')->references('id_movimiento')->on('movimientos');
+
+            // Foreign key constraints
+            $table->foreign('id_movimiento')->references('id')->on('movimientos')->onDelete('cascade');
+            $table->foreign('id_movimiento_pago')->references('id')->on('movimientos')->onDelete('cascade');
         });
     }
 

@@ -12,10 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('datos_historicos', function (Blueprint $table) {
-            $table->id('id_dato_historico');
-            $table->string('nombre');
-            $table->string('valor');
+            $table->id(); // ID autoincrementable
+            $table->unsignedBigInteger('id_usuario')->unique(); // ID del usuario (único)
+            $table->decimal('cantidad_horas_vuelo', 10, 2); // Cantidad de horas de vuelo
+            $table->integer('cantidad_aterrizajes'); // Cantidad de aterrizajes
+
             $table->timestamps();
+
+            // Foreign key constraint
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
         });
     }
 

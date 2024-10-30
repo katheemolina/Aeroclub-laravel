@@ -12,12 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tarifas_especiales', function (Blueprint $table) {
-            $table->id('id_tarifa_especial');
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
-            $table->decimal('importe', 10, 2);
-            $table->boolean('estado');
+            $table->id(); // ID autoincrementable
+            $table->string('descripcion'); // Descripción de la tarifa especial
+            $table->decimal('valor', 10, 2); // Valor de la tarifa especial
+            $table->boolean('aplica'); // Indica si aplica o no (booleano)
+            $table->unsignedBigInteger('id_usuario'); // ID del usuario que crea la tarifa
+
             $table->timestamps();
+
+            // Foreign key constraint (puedes modificar el nombre de la columna si es necesario)
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
         });
     }
 

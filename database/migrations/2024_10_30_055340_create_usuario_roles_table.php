@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('usuario_roles', function (Blueprint $table) {
             $table->unsignedBigInteger('id_usuario');
             $table->unsignedBigInteger('id_rol');
-            $table->boolean('estado');
+            $table->enum('estado', ['activo', 'baja']);
             $table->timestamps();
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
-            $table->foreign('id_rol')->references('id_rol')->on('roles');
+
+            // Foreign keys
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('id_rol')->references('id')->on('roles')->onDelete('cascade');
         });
     }
 

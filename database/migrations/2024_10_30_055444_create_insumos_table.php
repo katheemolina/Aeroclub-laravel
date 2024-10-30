@@ -12,10 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('insumos', function (Blueprint $table) {
-            $table->id('id_insumo');
-            $table->string('descripcion');
-            $table->integer('cantidad');
-            $table->date('fecha_ingreso');
+            $table->id(); // ID autoincrementable
+            $table->string('descripcion'); // Descripción del insumo
+            $table->enum('tipo', ['tipo1', 'tipo2', 'tipo3']); // ver que metemos aca)
+            $table->integer('stock'); // Stock disponible
+            $table->string('observaciones')->nullable(); // Observaciones (opcional)
+            $table->enum('estado', ['activo', 'inactivo']); // Estado del insumo
+            
             $table->timestamps();
         });
     }

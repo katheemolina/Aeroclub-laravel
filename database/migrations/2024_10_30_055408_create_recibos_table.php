@@ -12,18 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('recibos', function (Blueprint $table) {
-            $table->id('id_recibo');
-            $table->string('numero_recibo')->unique();
-            $table->string('tipo_recibo');
-            $table->decimal('cantidad', 8, 2);
-            $table->decimal('importe', 10, 2);
-            $table->date('fecha');
-            $table->unsignedBigInteger('id_usuario');
-            $table->string('instruccion')->nullable();
-            $table->text('observaciones')->nullable();
-            $table->boolean('estado');
+            $table->id(); // ID autoincrementable
+            $table->string('numero_recibo')->unique(); // Número de recibo definido por el admin
+            $table->enum('tipo_recibo', ['vuelo', 'combustible', 'otro']); // Tipo de recibo
+            $table->decimal('cantidad', 10, 2); // Cantidad en formato decimal
+            $table->decimal('importe', 10, 2); // Importe en formato decimal
+            $table->date('fecha'); // Fecha del recibo
+            $table->unsignedBigInteger('id_usuario'); // ID del usuario
+            $table->boolean('instruccion'); // Instrucción (booleano)
+            $table->string('observaciones')->nullable(); // Observaciones
+            $table->enum('estado', ['pendiente', 'pagado', 'anulado']); // Estado del recibo
+            
             $table->timestamps();
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
+
+            // Foreign key constraint (modificado para referenciar el ID correcto)
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
         });
     }
 

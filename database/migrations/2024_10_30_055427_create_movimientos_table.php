@@ -12,16 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('movimientos', function (Blueprint $table) {
-            $table->id('id_movimiento');
-            $table->string('tipo');
-            $table->unsignedBigInteger('id_ref');
-            $table->string('descripcion');
-            $table->decimal('importe', 10, 2);
-            $table->date('fecha');
-            $table->text('observaciones')->nullable();
-            $table->unsignedBigInteger('id_usuario');
+            $table->id(); // ID autoincrementable
+            $table->enum('tipo', ['recibo', 'cuota_social']); // Tipo de movimiento
+            $table->unsignedBigInteger('id_ref'); // ID de referencia
+            $table->string('descripcion'); // Descripción del movimiento
+            $table->decimal('importe', 10, 2); // Importe del movimiento
+            $table->date('fecha'); // Fecha del movimiento
+            $table->string('observaciones')->nullable(); // Observaciones (opcional)
+            $table->unsignedBigInteger('id_usuario'); // ID del usuario que realiza el movimiento
+            
             $table->timestamps();
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
+
+            // Foreign key constraint (puedes modificar el nombre de la columna si es necesario)
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
         });
     }
 

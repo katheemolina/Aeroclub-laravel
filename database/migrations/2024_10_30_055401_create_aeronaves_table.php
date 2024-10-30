@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('aeronaves', function (Blueprint $table) {
-            $table->id('id_aeronave');
+            $table->id();
             $table->string('marca');
             $table->string('modelo');
             $table->string('matricula')->unique();
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('clase');
             $table->date('fecha_adquisicion');
             $table->decimal('consumo_por_hora', 8, 2);
-            $table->boolean('estado');
+            $table->enum('estado', ['activo', 'baja']);
             $table->timestamps();
         });
     }

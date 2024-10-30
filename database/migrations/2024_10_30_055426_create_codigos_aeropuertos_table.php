@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('codigos_aeropuertos', function (Blueprint $table) {
-            $table->id('id_codigo_aeropuerto');
-            $table->string('codigo');
-            $table->string('descripcion');
+            $table->id(); // ID autoincrementable
+            $table->string('codigo')->unique(); // Código del aeropuerto
+            $table->string('descripcion'); // Descripción del aeropuerto
             $table->timestamps();
         });
     }

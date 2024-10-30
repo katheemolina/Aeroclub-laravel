@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tipos_itinerarios', function (Blueprint $table) {
-            $table->id('id_tipo_itinerario');
+            $table->id(); 
             $table->string('descripcion');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

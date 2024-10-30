@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tarifas', function (Blueprint $table) {
-            $table->id('id_tarifa');
-            $table->date('fecha_vigencia');
-            $table->enum('tipo_tarifa', ['Vuelo', 'Combustible','Instruccion']);
-            $table->decimal('importe_vuelo', 10, 2);
-            $table->decimal('importe_combustible', 10, 2);
-            $table->decimal('importe_instruccion', 10, 2);
-            $table->timestamps();
+            $table->id(); // ID autoincrementable
+            $table->date('fecha_vigencia'); // Fecha de vigencia de la tarifa
+            $table->enum('tipo_tarifa', ['Vuelo', 'Combustible', 'Instrucción']); // Tipo de tarifa
+            $table->decimal('importe', 10, 2); // Importe en formato decimal
+            $table->decimal('importe_por_instruccion', 10, 2)->nullable(); // Importe por instrucción (puede ser nulo)
+
+            $table->timestamps(); // Campos para las marcas de tiempo
         });
     }
 
