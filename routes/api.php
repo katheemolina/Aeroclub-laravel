@@ -28,10 +28,10 @@ Route::put('/usuarios/{id}', [UsuariosController::class, 'actualizarDatosDelUsua
 Route::get('/vuelos/{id_usuario}/libroVuelo', [VuelosController::class, 'obtenerLibroDeVueloPorUsuario']);//obtiene el listado del libro de vuelo por usuario
 
 //cuenta corriente
-Route::get('/movimientos/{id_usuario}', [MovimientosController::class, 'cuentaCorrientePorUsuario']); //trae un listado de movimientos del usuario lo usamos en la ventana cuenta corriente
+Route::get('/cuentaCorriente/{id_usuario}', [MovimientosController::class, 'cuentaCorrientePorUsuario']); //trae un listado de movimientos del usuario lo usamos en la ventana cuenta corriente
 
 //RUTAS PARA GESTOR
-//REVISAR ------ Route::get('/movimientos', [MovimientosController::class, 'obtenerTodosLosMovimientos']); //trae un listado total de movimientos
+Route::get('/movimientos', [MovimientosController::class, 'obtenerTodosLosMovimientos']); //trae un listado total de movimientos
 Route::get('/movimientos/{id}/noPago', [MovimientosController::class, 'obtenerMovimientosNoPagos']);
 
 //Todos los itinerarios para ver los vuelos

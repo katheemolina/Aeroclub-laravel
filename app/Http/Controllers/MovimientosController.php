@@ -72,10 +72,17 @@ class MovimientosController extends Controller
     * 
     * @return \Illuminate\Http\JsonResponse
     */
-    public function obtenerTodosLosMovimientos($id = 0)
+    public function obtenerTodosLosMovimientos(Request $request)
     {
-    // Llamada al procedimiento almacenado
-    $result = DB::select('CALL TodosLosMovimientos(?)', [$id]);
+        $idUsuario = $request->input('id', 0); // Toma el ID del usuario desde los parámetros de la solicitud, o 0 si no se proporciona
+        $fechaDesde = $request->input('fecha_desde'); // Toma la fecha desde desde los parámetros de la solicitud
+        $fechaHasta = $request->input('fecha_hasta'); // Toma la fecha hasta desde los parámetros de la solicitud
+
+        // Asegúrate de que las fechas estén en el formato adecuado o nulas si no se proporcionan
+        $fechaDesde = $fechaDesde ? date('Y-m-d', strtotime($fechaDesde)) : null;
+        $fechaHasta = $fechaHasta ? date('Y-m-d', strtotime($fechaHasta)) : null;
+
+    $result = DB::select('CALL TodosLosMovimientos(?, ?, ?)', [$idUsuario, $fechaDesde, $fechaHasta]);
 
     // Verificar si el resultado está vacío
     if (empty($result)) {
@@ -85,5 +92,7 @@ class MovimientosController extends Controller
     // Retornar el resultado en formato JSON
     return response()->json($result);
     }
+
+
 
 }

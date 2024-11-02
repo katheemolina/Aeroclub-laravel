@@ -13,6 +13,9 @@ class RecibosController extends Controller{
     $fechaDesde = $request->input('fecha_desde'); // Toma la fecha desde desde los parámetros de la solicitud
     $fechaHasta = $request->input('fecha_hasta'); // Toma la fecha hasta desde los parámetros de la solicitud
 
+    $fechaDesde = $fechaDesde ? date('Y-m-d', strtotime($fechaDesde)) : null;
+    $fechaHasta = $fechaHasta ? date('Y-m-d', strtotime($fechaHasta)) : null;
+    
     // Llamada al procedimiento almacenado
     $result = DB::select('CALL TodosLosRecibos(?, ?, ?)', [$idUsuario, $fechaDesde, $fechaHasta]);
 
