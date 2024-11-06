@@ -66,31 +66,68 @@ class UsuariosController extends Controller
         return response()->json($result);
     }
 
+    public function obtenerRolesPorUsuario($id)
+    {
+        $result = DB::select('CALL ObtenerRolesPorUsuario(?)', [$id]);
+
+        if (empty($result)) {
+            return response()->json(['message' => 'Usuario no encontrado.'], 404);
+        }
+
+        return response()->json($result);
+    }
 
     public function actualizarDatosDelUsuario(Request $request, $id)
     {
-        // Validar los datos recibidos
-        $validatedData = $request->validate([
-            'telefono' => 'required|string|max:255',
-            'dni' => 'required|integer',
-            'estado' => 'required|in:Habilitado,Deshabilitado',
-            'localidad' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255'
+        // Validar los datos de entrada
+        $validated = $request->validate([
+            'Telefono' => 'required|string|max:255',
+            'Dni' => 'required|integer',
+            'Localidad' => 'required|string|max:255',
+            'Direccion' => 'required|string|max:255',
+            'FechaNacimiento' => 'required|date',
+            'FechaVencCMA' => 'required|date',
+            'Licencias' => 'required|json',
+            'CantHorasVuelo' => 'required|numeric',
+            'CantAterrizajes' => 'required|integer',
         ]);
 
-        // Llamada al procedimiento almacenado
-        DB::statement('CALL ActualizarDatosDelUsuario(?, ?, ?, ?, ?, ?)', [
-            $id,
-            $validatedData['telefono'],
-            $validatedData['dni'],
-            $validatedData['estado'],
-            $validatedData['localidad'],
-            $validatedData['direccion']
-        ]);
+        try {
+            // Ejecutar el stored procedure
+            DB::beginTransaction();
 
-        // Retornar una respuesta de éxito
-        return response()->json(['message' => 'Datos del usuario actualizados con éxito.'], 200);
+            $resultado = DB::select('CALL ActualizarDatosDelUsuario(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+                $id,  // El ID del usuario ahora es un parámetro en la URL
+                $validated['Telefono'],
+                $validated['Dni'],
+                $validated['Localidad'],
+                $validated['Direccion'],
+                $validated['FechaNacimiento'],
+                $validated['FechaVencCMA'],
+                $validated['Licencias'],
+                $validated['CantHorasVuelo'],
+                $validated['CantAterrizajes'],
+            ]);
+
+            DB::commit();
+
+            // Retornar una respuesta de éxito
+            return response()->json([
+                'message' => 'Datos del usuario actualizados correctamente.'
+            ], 200);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            // En caso de error, devolver un mensaje de error
+            return response()->json([
+                'message' => 'Error al actualizar los datos del usuario.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+
+    
 
     public function listarAsociados(Request $request)
     {

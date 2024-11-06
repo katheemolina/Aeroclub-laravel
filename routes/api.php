@@ -7,6 +7,20 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\VuelosController;
 use App\Http\Controllers\RecibosController;
 
+use App\Http\Controllers\TarifaController;
+
+use App\Http\Controllers\AeronavesController;
+
+Route::get('aeronaves', [AeronavesController::class, 'obtenerAeronaves']); // Para obtener aeronaves
+Route::post('aeronaves', [AeronavesController::class, 'insertarAeronave']); // Para insertar aeronave
+Route::put('aeronaves/{id}', [AeronavesController::class, 'actualizarAeronave']); // Actualizar aeronave
+
+Route::get('tarifas', [TarifaController::class, 'obtenerTarifas']); // Para obtener las tarifas
+Route::post('tarifas', [TarifaController::class, 'insertarTarifa']); // Para insertar una nueva tarifa
+Route::put('tarifas/{id}', [TarifaController::class, 'actualizarTarifa']); 
+
+
+Route::put('/actualizar-usuario/{id}', [UsuariosController::class, 'actualizarDatosDelUsuario']);
 
 //RUTAS PARA ASOCIADOS
 //dashboard
@@ -16,7 +30,7 @@ Route::get('/usuarios/{idUsuario}/cma', [UsuariosController::class, 'obtenerEsta
 Route::get('/vuelos/{idUsuario}/horasVoladas', [VuelosController::class, 'horasVoladasPorUsuario']); //Devuelve la sumatoria de las horas voladas
 Route::get('/vuelos/{idUsuario}/ultimosVuelos', [VuelosController::class, 'ultimosVuelosPorUsuario']); //agrupa por aeronave para evaluar si esta adaptado
 Route::get('/usuarios/{idUsuario}/licencias', [UsuariosController::class, 'obtenerLicenciasPorUsuario']); //devuelve listado de las licencias que tiene el usuario
-
+Route::get('/roles/{idUsuario}', [UsuariosController::class, 'obtenerRolesPorUsuario']); //trae los roles del usuario
 
 //perfil
 //vuelve a utilizar la ruta Route::get('/usuarios/{id}', [UsuariosController::class, 'obtenerDatosDelUsuario']);
