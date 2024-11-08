@@ -174,4 +174,28 @@ class UsuariosController extends Controller
     }
 
 
+    public function modificarEstadoAsociado(Request $request, $idUsuario)
+{
+    // Validar los datos recibidos
+    $validatedData = $request->validate([
+        'Estado' => 'required|string|in:habilitado,deshabilitado'  // Solo permite "habilitado" o "deshabilitado"
+    ]);
+
+    try {
+        // Llamada al procedimiento almacenado
+        DB::statement('CALL ModificarEstadoDeAsociado(?, ?)', [
+            $idUsuario,                  // ID de usuario que se pasa como parámetro
+            $validatedData['Estado']     // Estado recibido en la solicitud ("habilitado" o "deshabilitado")
+        ]);
+
+        // Retornar una respuesta de éxito
+        return response()->json(['message' => 'Estado del asociado modificado exitosamente.'], 200);
+    } catch (\Exception $e) {
+        // Retornar una respuesta de error
+        return response()->json(['error' => 'Error al modificar el estado del asociado: ' . $e->getMessage()], 500);
+    }
+}
+
+
+
 }
