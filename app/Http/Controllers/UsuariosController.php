@@ -66,6 +66,29 @@ class UsuariosController extends Controller
         return response()->json($result);
     }
 
+    public function actualizarLicencias(Request $request, $id)
+    {
+        // Validación de los datos
+        $request->validate([
+            'licencias' => 'required|array', // La lista de licencias debe estar en formato JSON
+            'licencias.*.nombreLic' => 'required|string',
+            'licencias.*.fechaVenc' => 'required|date',
+        ]);
+
+        try {
+            // Convierte el array de licencias en JSON
+            $licenciasJson = json_encode($request->input('licencias'));
+
+            // Llama al procedimiento almacenado
+            DB::statement('CALL ActualizarLicencias(?, ?)', [$id, $licenciasJson]);
+
+            return response()->json(['message' => 'Licencias actualizadas correctamente.'], 200);
+        } catch (Exception $e) {
+            // Manejo de errores
+            return response()->json(['error' => 'Error al actualizar licencias', 'message' => $e->getMessage()], 500);
+        }
+    }
+
     public function obtenerRolesPorUsuario($id)
     {
         $result = DB::select('CALL ObtenerRolesPorUsuario(?)', [$id]);

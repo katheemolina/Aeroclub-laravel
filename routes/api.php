@@ -7,20 +7,23 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\VuelosController;
 use App\Http\Controllers\RecibosController;
 
-use App\Http\Controllers\TarifaController;
-
+use App\Http\Controllers\TarifasController;
 use App\Http\Controllers\AeronavesController;
+
+use App\Http\Controllers\IngresoController;
 
 Route::get('aeronaves', [AeronavesController::class, 'obtenerAeronaves']); // Para obtener aeronaves
 Route::post('aeronaves', [AeronavesController::class, 'insertarAeronave']); // Para insertar aeronave
 Route::put('aeronaves/{id}', [AeronavesController::class, 'actualizarAeronave']); // Actualizar aeronave
 
-Route::get('tarifas', [TarifaController::class, 'obtenerTarifas']); // Para obtener las tarifas
-Route::post('tarifas', [TarifaController::class, 'insertarTarifa']); // Para insertar una nueva tarifa
-Route::put('tarifas/{id}', [TarifaController::class, 'actualizarTarifa']); 
+Route::get('tarifas', [TarifasController::class, 'obtenerTarifas']); // Para obtener las tarifas
+Route::post('tarifas', [TarifasController::class, 'insertarTarifa']); // Para insertar una nueva tarifa
+Route::put('tarifas/{id}', [TarifasController::class, 'actualizarTarifa']); 
 
 
 Route::put('/actualizar-usuario/{id}', [UsuariosController::class, 'actualizarDatosDelUsuario']);
+Route::put('/usuarios/{id}/licencias', [UsuariosController::class, 'actualizarLicencias']);
+
 
 //RUTAS PARA ASOCIADOS
 //dashboard
@@ -60,5 +63,8 @@ Route::get('/asociados', [UsuariosController::class, 'listarAsociados']); //de
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/verificarUsuario', [IngresoController::class, 'verificarOCrearUsuario']); 
+
 
 

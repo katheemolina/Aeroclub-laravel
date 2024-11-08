@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
-class TarifaController extends Controller
+class TarifasController extends Controller
 {
 
     public function obtenerTarifas()
