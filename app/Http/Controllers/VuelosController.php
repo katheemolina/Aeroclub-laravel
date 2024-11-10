@@ -65,7 +65,7 @@ class VuelosController extends Controller
     public function obtenerTodosLosItinerarios($id = 0) // Valor predeterminado de 0
     {
     // Llamada al procedimiento almacenado
-    $result = DB::select('CALL TodosLosItinerarios(?)', [$id]);
+    $result = DB::select('CALL TodosLosItinerarios()');
 
     // Verificar si el resultado está vacío
     if (empty($result)) {
