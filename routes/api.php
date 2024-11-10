@@ -12,6 +12,8 @@ use App\Http\Controllers\AeronavesController;
 
 use App\Http\Controllers\IngresoController;
 
+use App\Http\Controllers\GenerarReciboController;
+
 Route::get('aeronaves', [AeronavesController::class, 'obtenerAeronaves']); // Para obtener aeronaves
 Route::post('aeronaves', [AeronavesController::class, 'insertarAeronave']); // Para insertar aeronave
 Route::put('aeronaves/{id}', [AeronavesController::class, 'actualizarAeronave']); // Actualizar aeronave
@@ -59,7 +61,7 @@ Route::get('/recibos', [RecibosController::class, 'obtenerTodosLosRecibos']);
 
 //Rutas para instructor
 Route::get('/asociados', [UsuariosController::class, 'listarAsociados']); //
-Route::put('/modificarEstado/{idUsuario}', [UsuariosController::class, 'modificarEstadoAsociado']); //
+Route::put('/modificarEstado/{usuarioId}', [UsuariosController::class, 'modificarEstadoAsociado']); //
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -67,5 +69,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/verificarUsuario', [IngresoController::class, 'verificarOCrearUsuario']); 
 
+Route::get('/obtenerTiposVuelos', [GenerarReciboController::class, 'obtenerTiposVuelos']);
 
-
+Route::get('/obtenerInstructores', [GenerarReciboController::class, 'obtenerInstructores']);

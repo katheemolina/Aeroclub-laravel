@@ -67,27 +67,24 @@ class UsuariosController extends Controller
     }
 
     public function actualizarLicencias(Request $request, $id)
-    {
-        // Validación de los datos
-        $request->validate([
-            'licencias' => 'required|array', // La lista de licencias debe estar en formato JSON
-            'licencias.*.nombreLic' => 'required|string',
-            'licencias.*.fechaVenc' => 'required|date',
-        ]);
+{
+    // Validar la estructura de entrada
+    $request->validate([
+        '*.nombreLic' => 'required|string',
+        '*.fechaVenc' => 'required|date'
+    ]);
 
-        try {
-            // Convierte el array de licencias en JSON
-            $licenciasJson = json_encode($request->input('licencias'));
+    // Convertir el JSON de licencias a una cadena para pasarla al procedimiento almacenado
+    $licenciasJson = json_encode($request->all());
 
-            // Llama al procedimiento almacenado
-            DB::statement('CALL ActualizarLicencias(?, ?)', [$id, $licenciasJson]);
-
-            return response()->json(['message' => 'Licencias actualizadas correctamente.'], 200);
-        } catch (Exception $e) {
-            // Manejo de errores
-            return response()->json(['error' => 'Error al actualizar licencias', 'message' => $e->getMessage()], 500);
-        }
+    // Llamar al procedimiento almacenado
+    try {
+        DB::statement('CALL ActualizarLicencias(?, ?)', [$id, $licenciasJson]);
+        return response()->json(['message' => 'Licencias actualizadas exitosamente'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
 
     public function obtenerRolesPorUsuario($id)
     {
