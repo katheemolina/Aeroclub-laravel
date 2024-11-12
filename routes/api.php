@@ -52,6 +52,7 @@ Route::get('/cuentaCorriente/{id_usuario}', [MovimientosController::class, 'cuen
 //RUTAS PARA GESTOR
 Route::get('/movimientos', [MovimientosController::class, 'obtenerTodosLosMovimientos']); //trae un listado total de movimientos
 Route::get('/movimientos/{id}/noPago', [MovimientosController::class, 'obtenerMovimientosNoPagos']);
+Route::get('/movimientosAeroclub', [MovimientosController::class, 'obtenerCuentaCorrienteAeroclub']); //trae un listado total de movimientos
 
 //Todos los itinerarios para ver los vuelos
 Route::get('/itinerarios', [VuelosController::class, 'obtenerTodosLosItinerarios']);
@@ -67,8 +68,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/verificarUsuario', [IngresoController::class, 'verificarOCrearUsuario']); 
+Route::put('/verificarUsuario', [IngresoController::class, 'verificarOCrearUsuario']); 
 
 Route::get('/obtenerTiposVuelos', [GenerarReciboController::class, 'obtenerTiposVuelos']);
 
 Route::get('/obtenerInstructores', [GenerarReciboController::class, 'obtenerInstructores']);
+
+Route::put('/generarRecibo', [GenerarReciboController::class, 'generarRecibo']);

@@ -147,8 +147,6 @@ class UsuariosController extends Controller
         }
     }
 
-    
-
     public function listarAsociados(Request $request)
     {
         // Obtener el ID del usuario desde la solicitud
@@ -169,7 +167,6 @@ class UsuariosController extends Controller
         // Retornar el resultado en formato JSON
         return response()->json($result);
     }
-
 
     public function modificarEstadoAsociado(Request $request, $idUsuario)
 {

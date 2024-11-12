@@ -93,6 +93,17 @@ class MovimientosController extends Controller
     return response()->json($result);
     }
 
+    public function obtenerCuentaCorrienteAeroclub(Request $request)
+    {
+    $result = DB::select('CALL obtenerCuentaCorrienteAeroclub()');
 
+    // Verificar si el resultado está vacío
+    if (empty($result)) {
+        return response()->json(['message' => 'No se encontraron movimientos.'], 404);
+    }
+
+    // Retornar el resultado en formato JSON
+    return response()->json($result);
+    }
 
 }
