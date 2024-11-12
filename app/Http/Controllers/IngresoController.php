@@ -27,7 +27,7 @@ class IngresoController extends Controller
         $apellido = $request->input('apellido');
 
         // Ejecutar el procedimiento almacenado
-        $resultado = DB::select('CALL ObtenerIdUsuarioDesdeMail(?, ?, ?)', [
+        $resultado = DB::select('CALL VerificarOCrearUsuario(?, ?, ?)', [
             $email,
             $nombre,
             $apellido
