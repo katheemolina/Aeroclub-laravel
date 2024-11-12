@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Psy\Readline\Hoa\Console;
 
 class GenerarReciboController extends Controller{
 
@@ -49,13 +50,13 @@ class GenerarReciboController extends Controller{
                 'Importe' => 'required|numeric',
                 'Fecha' => 'required|date',
                 'Instruccion' => 'required|integer',
-                'IdInstructor' => 'required|integer',
+                'IdInstructor' => 'nullable|integer',  // El instructor es opcional
                 'Itinerarios' => 'required|integer',  // Número de itinerarios
-                'Datos' => 'required|string|max:1000',  // JSON con la información de itinerarios
+                'Datos' => 'required|json',  // Validar que sea un JSON válido
                 'Observaciones' => 'nullable|string|max:255',
                 'Aeronave' => 'required|integer',
                 'Tarifa' => 'required|integer',
-                'TipoItinerario'=>'required|integer'
+                'TipoItinerario' => 'required|integer'
             ]);
 
             // Extraer los datos validados
@@ -65,7 +66,7 @@ class GenerarReciboController extends Controller{
             $Importe = $validated['Importe'];
             $Fecha = $validated['Fecha'];
             $Instruccion = $validated['Instruccion'];
-            $IdInstructor  = $validated['IdInstructor'];
+            $IdInstructor = $validated['IdInstructor'] ?? null;  // Puede ser null
             $Itinerarios = $validated['Itinerarios'];
             $Datos = $validated['Datos'];  // Este es el JSON de itinerarios
             $Observaciones = $validated['Observaciones'] ?? null;
@@ -74,7 +75,7 @@ class GenerarReciboController extends Controller{
             $TipoItinerario = $validated['TipoItinerario'];
 
             // Llamar al procedimiento almacenado y pasar los parámetros
-            $result = DB::select('CALL GenerarRecibo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', [
+            $result = DB::select('CALL GenerarRecibo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 $IdUsuario,
                 $TipoRecibo,
                 $Cantidad,
@@ -92,9 +93,17 @@ class GenerarReciboController extends Controller{
 
             // Si se desea, puedes devolver una respuesta con algún mensaje o los resultados
             return response()->json(['message' => 'Recibo generado con éxito', 'data' => $result], 200);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Manejo de errores de validación
+            return response()->json(['error' => 'Datos de entrada inválidos', 'message' => $e->errors()], 422);
+        } catch (\PDOException $e) {
+            // Manejo de errores en la base de datos (como un error en el procedimiento almacenado)
+            return response()->json(['error' => 'Error en la base de datos', 'message' => $e->getMessage()], 500);
         } catch (\Exception $e) {
-            // Manejo de errores, si algo sale mal
-            return response()->json(['error' => $e->getMessage()], 500);
+            // Manejo de errores generales
+            return response()->json(['error' => 'Error interno', 'message' => $e->getMessage()], 500);
         }
     }
+
 }
