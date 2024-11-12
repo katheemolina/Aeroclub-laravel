@@ -38,4 +38,29 @@ class IngresoController extends Controller
     }
 
 
+    public function obtenerIdUsuarioDesdeMail(Request $request)
+    {
+        // Validar los parámetros de entrada
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        // Obtener los valores de los parámetros de entrada
+        $email = $request->input('email');
+
+        // Ejecutar el procedimiento almacenado
+        $result = DB::select(
+            'CALL ObtenerIdUsuarioDesdeMail(?)', 
+            [$email]
+        );
+
+        // Retornar el resultado en JSON
+        if (!empty($result)) {
+            return response()->json($result[0]); // Retorna el primer elemento del resultado
+        } else {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+    }
+
+
 }
