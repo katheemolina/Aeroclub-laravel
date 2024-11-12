@@ -76,4 +76,4 @@ Route::get('/obtenerInstructores', [GenerarReciboController::class, 'obtenerInst
 
 Route::put('/generarRecibo', [GenerarReciboController::class, 'generarRecibo']);
 
-Route::get('/obtenerUsuario', [IngresoController::class, 'obtenerIdUsuarioDesdeMail']); 
+Route::get('/obtenerUsuario/{email}', [IngresoController::class, 'obtenerIdUsuarioDesdeMail']); 
