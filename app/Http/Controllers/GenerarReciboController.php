@@ -55,6 +55,7 @@ class GenerarReciboController extends Controller{
                 'Observaciones' => 'nullable|string|max:255',
                 'Aeronave' => 'required|integer',
                 'Tarifa' => 'required|integer',
+                'TipoItinerario'=>'required|integer'
             ]);
 
             // Extraer los datos validados
@@ -70,9 +71,10 @@ class GenerarReciboController extends Controller{
             $Observaciones = $validated['Observaciones'] ?? null;
             $Aeronave = $validated['Aeronave'];
             $Tarifa = $validated['Tarifa'];
+            $TipoItinerario = $validated['TipoItinerario'];
 
             // Llamar al procedimiento almacenado y pasar los parámetros
-            $result = DB::select('CALL GenerarRecibo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            $result = DB::select('CALL GenerarRecibo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', [
                 $IdUsuario,
                 $TipoRecibo,
                 $Cantidad,
@@ -84,7 +86,8 @@ class GenerarReciboController extends Controller{
                 $Datos,
                 $Observaciones,
                 $Aeronave,
-                $Tarifa
+                $Tarifa,
+                $TipoItinerario
             ]);
 
             // Si se desea, puedes devolver una respuesta con algún mensaje o los resultados
