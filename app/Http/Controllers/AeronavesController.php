@@ -88,4 +88,27 @@ class AeronavesController extends Controller
         // Retornar una respuesta de éxito
         return response()->json(['message' => 'okkkkkkkkkkkkk.'], 200);
     }
+
+    public function eliminarAeronave(Request $request)
+    {
+        try {
+            // Validar el parámetro necesario
+            $validated = $request->validate([
+                'IdAeronave' => 'required|integer'
+            ]);
+
+            // Extraer el valor validado
+            $IdAeronave = $validated['IdAeronave'];
+
+            // Llamar al procedimiento almacenado para eliminar la aeronave
+            DB::statement('CALL EliminarAeronave(?)', [$IdAeronave]);
+
+            // Retornar una respuesta exitosa
+            return response()->json(['message' => 'Aeronave eliminada correctamente'], 200);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }
