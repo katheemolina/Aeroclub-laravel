@@ -87,4 +87,26 @@ class TarifasController extends Controller
         return response()->json(['message' => 'okkkkkkkkkkkkk.'], 200);
     }
 
+    public function eliminarTarifa(Request $request)
+    {
+        try {
+            // Validar el parámetro necesario
+            $validated = $request->validate([
+                'IdTarifa' => 'required|integer'
+            ]);
+
+            // Extraer el valor validado
+            $IdTarifa = $validated['IdTarifa'];
+
+            // Llamar al procedimiento almacenado para eliminar la tarifa
+            DB::statement('CALL EliminarTarifa(?)', [$IdTarifa]);
+
+            // Retornar una respuesta exitosa
+            return response()->json(['message' => 'Tarifa eliminada correctamente'], 200);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }
