@@ -168,27 +168,93 @@ class UsuariosController extends Controller
         return response()->json($result);
     }
 
-    public function modificarEstadoAsociado(Request $request, $idUsuario)
-{
-    // Validar los datos recibidos
-    $validatedData = $request->validate([
-        'Estado' => 'required|string|in:habilitado,deshabilitado'  // Solo permite "habilitado" o "deshabilitado"
-    ]);
+    public function habilitarUsuario(Request $request)
+    {
+        try {
+            // Validar que se haya recibido el IdUsuario en la solicitud
+            $validated = $request->validate([
+                'IdUsuario' => 'required|integer',
+            ]);
 
-    try {
-        // Llamada al procedimiento almacenado
-        DB::statement('CALL ModificarEstadoDeAsociado(?, ?)', [
-            $idUsuario,                  // ID de usuario que se pasa como parámetro
-            $validatedData['Estado']     // Estado recibido en la solicitud ("habilitado" o "deshabilitado")
-        ]);
+            // Llamar al procedimiento almacenado pasando el IdUsuario como parámetro
+            $IdUsuario = $validated['IdUsuario'];
+            DB::statement('CALL HabilitarUsuario(?)', [$IdUsuario]);
 
-        // Retornar una respuesta de éxito
-        return response()->json(['message' => 'Estado del asociado modificado exitosamente.'], 200);
-    } catch (\Exception $e) {
-        // Retornar una respuesta de error
-        return response()->json(['error' => 'Error al modificar el estado del asociado: ' . $e->getMessage()], 500);
+            // Responder con un mensaje de éxito
+            return response()->json(['message' => 'Usuario habilitado con éxito'], 200);
+        } catch (\Exception $e) {
+            // Manejar errores si ocurre alguno
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
-}
+
+    public function deshabilitarUsuario(Request $request)
+    {
+        try {
+            // Validar que se haya recibido el IdUsuario en la solicitud
+            $validated = $request->validate([
+                'IdUsuario' => 'required|integer',
+            ]);
+
+            // Llamar al procedimiento almacenado pasando el IdUsuario como parámetro
+            $IdUsuario = $validated['IdUsuario'];
+            DB::statement('CALL DeshabilitarUsuario(?)', [$IdUsuario]);
+
+            // Responder con un mensaje de éxito
+            return response()->json(['message' => 'Usuario deshabilitado con éxito'], 200);
+        } catch (\Exception $e) {
+            // Manejar errores si ocurre alguno
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function actualizarRoles(Request $request)
+    {
+        try {
+            // Validar los datos de la solicitud
+            $validated = $request->validate([
+                'IdUsuario' => 'required|integer',
+                'Roles' => 'required|json'
+            ]);
+
+            // Extraer los datos validados
+            $IdUsuario = $validated['IdUsuario'];
+            $Roles = $validated['Roles'];
+
+            // Llamar al procedimiento almacenado
+            DB::statement('CALL ActualizarRoles(?, ?)', [$IdUsuario, $Roles]);
+
+            // Responder con un mensaje de éxito
+            return response()->json(['message' => 'Roles actualizados con éxito'], 200);
+        } catch (\Exception $e) {
+            // Manejar cualquier error que ocurra
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function eliminarRol(Request $request)
+    {
+        try {
+            // Validar los parámetros necesarios
+            $validated = $request->validate([
+                'IdUsuario' => 'required|integer',
+                'IdRol' => 'required|integer'
+            ]);
+
+            // Extraer los valores validados
+            $IdUsuario = $validated['IdUsuario'];
+            $IdRol = $validated['IdRol'];
+
+            // Llamar al procedimiento almacenado para eliminar el rol
+            DB::statement('CALL EliminarRol(?, ?)', [$IdUsuario, $IdRol]);
+
+            // Retornar una respuesta exitosa
+            return response()->json(['message' => 'Rol eliminado correctamente'], 200);
+        } catch (\Exception $e) {
+            // Manejo de errores si algo sale mal
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
 
 

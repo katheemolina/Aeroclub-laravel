@@ -77,3 +77,15 @@ Route::get('/obtenerInstructores', [GenerarReciboController::class, 'obtenerInst
 Route::put('/generarRecibo', [GenerarReciboController::class, 'generarRecibo']);
 
 Route::get('/obtenerUsuario/{email}', [IngresoController::class, 'obtenerIdUsuarioDesdeMail']); 
+
+Route::post('/usuario/habilitar', [UsuariosController::class, 'habilitarUsuario']);
+
+Route::post('/usuario/deshabilitar', [UsuariosController::class, 'deshabilitarUsuario']);
+
+Route::post('/usuario/actualizarRoles', [UsuariosController::class, 'actualizarRoles']);
+
+Route::post('/usuario/eliminarRol', [UsuariosController::class, 'eliminarRol']);
+
+Route::post('/tarifa/eliminar', [TarifasController::class, 'eliminarTarifa']);
+
+Route::post('/aeronave/eliminar', [AeronavesController::class, 'eliminarAeronave']);
