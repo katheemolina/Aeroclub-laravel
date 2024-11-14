@@ -18,6 +18,7 @@ Route::get('aeronaves', [AeronavesController::class, 'obtenerAeronaves']); // Pa
 Route::post('aeronaves', [AeronavesController::class, 'insertarAeronave']); // Para insertar aeronave
 Route::put('aeronaves/{id}', [AeronavesController::class, 'actualizarAeronave']); // Actualizar aeronave
 
+Route::get('tarifasCombustible', [TarifasController::class, 'obtenerTarifasCombustible']); // Para obtener las tarifas
 Route::get('tarifas', [TarifasController::class, 'obtenerTarifas']); // Para obtener las tarifas
 Route::post('tarifas', [TarifasController::class, 'insertarTarifa']); // Para insertar una nueva tarifa
 Route::put('tarifas/{id}', [TarifasController::class, 'actualizarTarifa']); 

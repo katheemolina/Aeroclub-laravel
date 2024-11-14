@@ -109,4 +109,24 @@ class TarifasController extends Controller
         }
     }
 
+    public function obtenerTarifasCombustible()
+    {
+        try {
+            // Ejecutar el procedimiento almacenado ObtenerTarifas
+            $tarifas = DB::select('CALL ObtenerTarifasCombustible()');
+
+            // Retornar los resultados como respuesta JSON
+            return response()->json([
+                'status' => 'success',
+                'data' => $tarifas
+            ]);
+        } catch (\Exception $e) {
+            // Si ocurre algún error, retornar un mensaje de error
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Hubo un error al obtener las tarifas',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
