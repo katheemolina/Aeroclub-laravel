@@ -106,4 +106,44 @@ class GenerarReciboController extends Controller{
         }
     }
 
+    public function pagarRecibos(Request $request)
+    {
+        try {
+            // Validar los parámetros que esperamos recibir
+            $validated = $request->validate([
+                'ids_movimientos' => 'required|string' // Validamos que venga como una cadena de texto
+            ]);
+
+            // Extraer y procesar los IDs de movimientos
+            $idsMovimientos = explode(',', $validated['ids_movimientos']);
+
+            // Validar que todos los elementos sean números enteros
+            if (!collect($idsMovimientos)->every(fn($id) => is_numeric($id))) {
+                return response()->json([
+                    'error' => 'Los IDs de movimientos deben ser números enteros separados por punto y coma.'
+                ], 422);
+            }
+
+            // Llamar al procedimiento almacenado con los IDs
+            $result = DB::select('CALL ProcesarPagoRecibos(?)', [implode(',', $idsMovimientos)]);
+
+            // Devolver respuesta exitosa con el resultado
+            return response()->json([
+                'message' => 'Recibos pagados con éxito.',
+                'data' => $result
+            ], 200);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Manejo de errores de validación
+            return response()->json(['error' => 'Datos de entrada inválidos', 'message' => $e->errors()], 422);
+        } catch (\PDOException $e) {
+            // Manejo de errores en la base de datos (como un error en el procedimiento almacenado)
+            return response()->json(['error' => 'Error en la base de datos', 'message' => $e->getMessage()], 500);
+        } catch (\Exception $e) {
+            // Manejo de errores generales
+            return response()->json(['error' => 'Error interno', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+
 }

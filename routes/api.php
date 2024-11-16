@@ -77,6 +77,8 @@ Route::get('/obtenerInstructores', [GenerarReciboController::class, 'obtenerInst
 
 Route::put('/generarRecibo', [GenerarReciboController::class, 'generarRecibo']);
 
+Route::post('/pagarRecibo', [GenerarReciboController::class, 'pagarRecibos']);
+
 Route::get('/obtenerUsuario/{email}', [IngresoController::class, 'obtenerIdUsuarioDesdeMail']); 
 
 Route::post('/usuario/habilitar', [UsuariosController::class, 'habilitarUsuario']);
