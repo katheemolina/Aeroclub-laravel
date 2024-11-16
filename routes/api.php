@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GenerarCuotasSocialesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MovimientosController;
@@ -92,3 +93,5 @@ Route::post('/usuario/eliminarRol', [UsuariosController::class, 'eliminarRol']);
 Route::post('/tarifa/eliminar', [TarifasController::class, 'eliminarTarifa']);
 
 Route::post('/aeronave/eliminar', [AeronavesController::class, 'eliminarAeronave']);
+
+Route::post('/generarCuotasSociales', [GenerarCuotasSocialesController::class, 'generarCuotasSociales']);
