@@ -84,7 +84,7 @@ class UsuariosController extends Controller
     } catch (\Exception $e) {
         return response()->json(['error' => $e->getMessage()], 500);
     }
-}
+    }
 
     public function obtenerRolesPorUsuario($id)
     {
@@ -214,7 +214,7 @@ class UsuariosController extends Controller
             // Validar los datos de la solicitud
             $validated = $request->validate([
                 'IdUsuario' => 'required|integer',
-                'Roles' => 'required|json'
+                'Roles' => 'required|json',
             ]);
 
             // Extraer los datos validados
@@ -255,7 +255,5 @@ class UsuariosController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
 
 }
