@@ -54,5 +54,32 @@ class IngresoController extends Controller
         }
     }
 
+    public function obtenerEstadoDelUsuario($id)
+    {
+        try {
+            // Llamar al procedimiento almacenado
+            $estado = DB::select('CALL ObtenerEstadoDelUsuario(?)', [$id]);
+
+            // Verificar si se obtuvo un resultado
+            if (empty($estado)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no encontrado.',
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $estado[0], // Primer resultado
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener el estado del usuario.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
 
 }
