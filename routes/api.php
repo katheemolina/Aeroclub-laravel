@@ -95,3 +95,5 @@ Route::post('/tarifa/eliminar', [TarifasController::class, 'eliminarTarifa']);
 Route::post('/aeronave/eliminar', [AeronavesController::class, 'eliminarAeronave']);
 
 Route::post('/generarCuotasSociales', [GenerarCuotasSocialesController::class, 'generarCuotasSociales']);
+
+Route::get('/obtenerEstadoUsuario/{id}', [IngresoController::class, 'obtenerEstadoDelUsuario']); 
