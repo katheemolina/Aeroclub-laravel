@@ -38,15 +38,17 @@ class TarifasController extends Controller
             'tipo_tarifa' => 'required|string|max:100',
             'importe' => 'required|numeric',
             'importe_por_instruccion' => 'required|numeric',
+            'aeronaves' => 'required|string',
         ]);
 
         try {
             // Ejecutar el procedimiento almacenado InsertarTarifas
-            DB::select('CALL InsertarTarifas(?, ?, ?, ?)', [
+            DB::select('CALL InsertarTarifas(?, ?, ?, ?, ?)', [
                 $validated['fecha_vigencia'],
                 $validated['tipo_tarifa'],
                 $validated['importe'],
-                $validated['importe_por_instruccion']
+                $validated['importe_por_instruccion'],
+                $validated['aeronaves']
             ]);
 
             return response()->json([
@@ -75,12 +77,13 @@ class TarifasController extends Controller
         ]);
 
         // Llamada al procedimiento almacenado
-        DB::statement('CALL ActualizarTarifas(?, ?, ?, ?, ?)', [
+        DB::statement('CALL ActualizarTarifas(?, ?, ?, ?, ?, ?)', [
             $id,  // ID de la tarifa que se pasa como parámetro en la URL
             $validatedData['fecha_vigencia'],
             $validatedData['tipo_tarifa'],
             $validatedData['importe'],
-            $validatedData['importe_por_instruccion'] ?? 0  // Valor predeterm
+            $validatedData['importe_por_instruccion'] ?? 0  ,
+            $validatedData['id_aeronave']
         ]);
 
         // Retornar una respuesta de éxito

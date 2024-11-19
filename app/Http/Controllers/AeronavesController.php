@@ -19,43 +19,78 @@ class AeronavesController extends Controller
     }
 
     public function insertarAeronave(Request $request)
-    {
-        // Validar los datos recibidos en la solicitud
-        $validated = $request->validate([
-            'marca' => 'required|string|max:100',
-            'modelo' => 'required|string|max:100',
-            'matricula' => 'required|string|max:100',
-            'potencia' => 'required|integer',
-            'clase' => 'required|string|max:100',
-            'fecha_adquisicion' => 'required|date_format:Y-m-d H:i:s',
-            'consumo_por_hora' => 'required|numeric',
-        ]);
+{
+    // Validar los datos recibidos en la solicitud
+    $validated = $request->validate([
+        'marca' => 'required|string|max:100',
+        'modelo' => 'required|string|max:100',
+        'matricula' => 'required|string|max:100',
+        'potencia' => 'required|integer',
+        'clase' => 'required|string|max:100',
+        'fecha_adquisicion' => 'required|date_format:Y-m-d',
+        'consumo_por_hora' => 'required|numeric',
+        'horas_historicas' => 'required|numeric',
+        'intervalo_inspeccion' => 'required|numeric',
+        'ultimo_servicio' => 'required|date_format:Y-m-d',
+        'horas_vuelo_aeronave' => 'required|numeric',
+        'horas_vuelo_motor' => 'required|numeric',
+        'motor' => 'required|string|max:250',
+        'aseguradora' => 'required|string|max:250',
+        'numero_poliza' => 'required|string|max:250',
+        'vencimiento_poliza' => 'required|string|max:250',
+    ]);
 
-        // Extraer los datos validados
-        $marca = $validated['marca'];
-        $modelo = $validated['modelo'];
-        $matricula = $validated['matricula'];
-        $potencia = $validated['potencia'];
-        $clase = $validated['clase'];
-        $fechaAdquisicion = $validated['fecha_adquisicion'];
-        $consumoHora = $validated['consumo_por_hora'];
+    // Extraer los datos validados
+    $marca = $validated['marca'];
+    $modelo = $validated['modelo'];
+    $matricula = $validated['matricula'];
+    $potencia = $validated['potencia'];
+    $clase = $validated['clase'];
+    $fechaAdquisicion = $validated['fecha_adquisicion'];
+    $consumoHora = $validated['consumo_por_hora'];
+    $horasHistoricas = $validated['horas_historicas'];
+    $intervaloInspeccion = $validated['intervalo_inspeccion'];
+    $ultimoServicio = $validated['ultimo_servicio'];
+    $horasVueloAeronave = $validated['horas_vuelo_aeronave'];
+    $horasVueloMotor = $validated['horas_vuelo_motor'];
+    $motor = $validated['motor'];
+    $aseguradora = $validated['aseguradora'];
+    $numeroPoliza = $validated['numero_poliza'];
+    $vencimientoPoliza = $validated['vencimiento_poliza'];
 
-        // Ejecutar el procedimiento almacenado InsertarAeronaves
-        DB::select('CALL InsertarAeronaves(?, ?, ?, ?, ?, ?, ?)', [
+    // Ejecutar el procedimiento almacenado InsertarAeronaves
+    try {
+        DB::statement('CALL InsertarAeronaves(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)', [
             $marca, 
             $modelo, 
             $matricula, 
             $potencia, 
             $clase, 
             $fechaAdquisicion, 
-            $consumoHora
+            $consumoHora, 
+            $horasHistoricas, 
+            $intervaloInspeccion, 
+            $ultimoServicio, 
+            $horasVueloAeronave, 
+            $horasVueloMotor,
+            $motor,
+            $aseguradora,
+            $numeroPoliza,
+            $vencimientoPoliza,
         ]);
 
         // Retornar una respuesta de éxito
         return response()->json([
             'message' => 'Aeronave insertada correctamente'
         ], 201); // Código de estado 201 para recurso creado
+    } catch (\Exception $e) {
+        // Manejar cualquier error y devolver un mensaje adecuado
+        return response()->json([
+            'error' => 'Error al insertar la aeronave: ' . $e->getMessage()
+        ], 500); // Código de estado 500 para error interno del servidor
     }
+}
+
 
     
     public function actualizarAeronave(Request $request, $id)
