@@ -102,22 +102,40 @@ class AeronavesController extends Controller
         'matricula' => 'required|string|max:100',
         'potencia' => 'required|integer',
         'clase' => 'required|string|max:100',
-        'fecha_adquisicion' => 'required|date_format:Y-m-d H:i:s',
+        'fecha_adquisicion' => 'required|date_format:Y-m-d',
         'consumo_por_hora' => 'required|numeric',
         'estado' => 'required|string|max:100',
+        'horas_historicas' => 'required|numeric',
+        'intervalo_inspeccion' => 'required|numeric',
+        'ultimo_servicio' => 'required|date_format:Y-m-d',
+        'horas_vuelo_aeronave' => 'required|numeric',
+        'horas_vuelo_motor' => 'required|numeric',
+        'motor' => 'required|string|max:250',
+        'aseguradora' => 'required|string|max:250',
+        'numero_poliza' => 'required|string|max:250',
+        'vencimiento_poliza' => 'required|date_format:Y-m-d',
         ]);
 
         // Llamada al procedimiento almacenado
-        DB::statement('CALL ActualizarAeronaves(?, ?, ?, ?, ?, ?,?, ?, ?)', [
-            $id, // El ID de la aeronave que se pasa por URL o cuerpo de la solicitud
-        $validatedData['marca'],
-        $validatedData['modelo'],
-        $validatedData['matricula'],
-        $validatedData['potencia'],
-        $validatedData['clase'],
-        $validatedData['fecha_adquisicion'],
-        $validatedData['consumo_por_hora'],
-        $validatedData['estado']
+        DB::statement('CALL ActualizarAeronaves(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            $id, // El ID de la aeronave que se pasa por URL
+            $validatedData['marca'],
+            $validatedData['modelo'],
+            $validatedData['matricula'],
+            $validatedData['potencia'],
+            $validatedData['clase'],
+            $validatedData['fecha_adquisicion'],
+            $validatedData['consumo_por_hora'],
+            $validatedData['estado'],
+            $validatedData['horas_historicas'],
+            $validatedData['intervalo_inspeccion'],
+            $validatedData['ultimo_servicio'],
+            $validatedData['horas_vuelo_aeronave'],
+            $validatedData['horas_vuelo_motor'],
+            $validatedData['motor'],
+            $validatedData['aseguradora'],
+            $validatedData['numero_poliza'],
+            $validatedData['vencimiento_poliza']
         ]);
 
         // Retornar una respuesta de éxito
