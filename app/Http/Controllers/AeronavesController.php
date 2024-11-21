@@ -91,7 +91,7 @@ class AeronavesController extends Controller
     }
 }
 
-
+/*
     
     public function actualizarAeronave(Request $request, $id)
     {
@@ -141,6 +141,109 @@ class AeronavesController extends Controller
         // Retornar una respuesta de éxito
         return response()->json(['message' => 'okkkkkkkkkkkkk.'], 200);
     }
+        */
+
+        public function cambiarEstado($id)
+    {
+        try {
+            // Llamar al procedimiento almacenado
+            DB::statement('CALL cambiarEstadoAeronave(?)', [$id]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Estado de la aeronave cambiado exitosamente.',
+            ], 200);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Manejar errores de SQL
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 400);
+        } catch (\Exception $e) {
+            // Manejar errores generales
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al cambiar el estado de la aeronave.',
+            ], 500);
+        }
+    }
+
+
+    public function cambiarDatosPoliza(Request $request)
+    {
+        // Validar los datos de entrada
+        $validated = $request->validate([
+            'id_aeronave' => 'required|integer|exists:aeronaves,id_aeronave',
+            'aseguradora' => 'required|string|max:255',
+            'numero_poliza' => 'required|string|max:255',
+            'vencimiento_poliza' => 'required|date',
+        ]);
+
+        try {
+            // Llamar al procedimiento almacenado
+            DB::statement('CALL CambiarDatosPoliza(?, ?, ?, ?)', [
+                $validated['id_aeronave'],
+                $validated['aseguradora'],
+                $validated['numero_poliza'],
+                $validated['vencimiento_poliza'],
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Datos de la póliza actualizados exitosamente.',
+            ], 200);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Manejar errores de SQL
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 400);
+        } catch (\Exception $e) {
+            // Manejar errores generales
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al actualizar los datos de la póliza.',
+            ], 500);
+        }
+    }
+
+    public function actualizarIntervaloInspeccion(Request $request)
+    {
+        // Validar los datos de entrada
+        $validated = $request->validate([
+            'id_aeronave' => 'required|integer|exists:aeronaves,id_aeronave',
+            'intervalo_inspeccion' => 'required|numeric|min:0',
+        ]);
+
+        try {
+            // Llamar al procedimiento almacenado
+            DB::statement('CALL ActualizarIntervaloInspeccion(?, ?)', [
+                $validated['id_aeronave'],
+                $validated['intervalo_inspeccion'],
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Intervalo de inspección actualizado exitosamente.',
+            ], 200);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Manejar errores de SQL
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 400);
+        } catch (\Exception $e) {
+            // Manejar errores generales
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al actualizar el intervalo de inspección.',
+            ], 500);
+        }
+    }
+
+
+
+
 
     public function eliminarAeronave(Request $request)
     {

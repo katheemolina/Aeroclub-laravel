@@ -17,7 +17,7 @@ use App\Http\Controllers\GenerarReciboController;
 
 Route::get('aeronaves', [AeronavesController::class, 'obtenerAeronaves']); // Para obtener aeronaves
 Route::post('aeronaves', [AeronavesController::class, 'insertarAeronave']); // Para insertar aeronave
-Route::put('aeronaves/{id}', [AeronavesController::class, 'actualizarAeronave']); // Actualizar aeronave
+//Route::put('aeronaves/{id}', [AeronavesController::class, 'actualizarAeronave']); // Actualizar aeronave
 
 Route::get('tarifasCombustible', [TarifasController::class, 'obtenerTarifasCombustible']); // Para obtener las tarifas
 Route::get('tarifas', [TarifasController::class, 'obtenerTarifas']); // Para obtener las tarifas
@@ -97,3 +97,9 @@ Route::post('/aeronave/eliminar', [AeronavesController::class, 'eliminarAeronave
 Route::post('/generarCuotasSociales', [GenerarCuotasSocialesController::class, 'generarCuotasSociales']);
 
 Route::get('/obtenerEstadoUsuario/{id}', [IngresoController::class, 'obtenerEstadoDelUsuario']); 
+
+Route::put('/aeronaves/{id_aeronave}/cambiarEstado', [AeronavesController::class, 'cambiarEstado']);
+
+Route::put('/aeronaves/cambioPoliza', [AeronavesController::class, 'cambiarDatosPoliza']);
+
+Route::put('/aeronaves/actualizarIntervaloInspeccion', [AeronavesController::class, 'actualizarIntervaloInspeccion']);
