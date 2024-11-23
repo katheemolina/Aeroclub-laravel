@@ -48,7 +48,7 @@ class GenerarReciboController extends Controller{
                 'TipoRecibo' => 'required|string|max:150',
                 'Cantidad' => 'required|numeric',
                 'Importe' => 'required|numeric',
-                'Fecha' => 'required|date',
+                'Fecha' => 'required|datetime',
                 'Instruccion' => 'required|integer',
                 'IdInstructor' => 'nullable|integer',  // El instructor es opcional
                 'Itinerarios' => 'required|integer',  // Número de itinerarios
@@ -56,7 +56,8 @@ class GenerarReciboController extends Controller{
                 'Observaciones' => 'nullable|string|max:255',
                 'Aeronave' => 'required|integer',
                 'Tarifa' => 'required|integer',
-                'TipoItinerario' => 'required|integer'
+                'TipoItinerario' => 'required|integer',
+                'IdUsuarioEvento' => 'required|integer',  // El instructor es opcional
             ]);
 
             // Extraer los datos validados
@@ -73,9 +74,10 @@ class GenerarReciboController extends Controller{
             $Aeronave = $validated['Aeronave'];
             $Tarifa = $validated['Tarifa'];
             $TipoItinerario = $validated['TipoItinerario'];
+            $IdUsuarioEvento = $validated['IdUsuarioEvento'];
 
             // Llamar al procedimiento almacenado y pasar los parámetros
-            $result = DB::select('CALL GenerarRecibo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            $result = DB::select('CALL GenerarRecibo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 $IdUsuario,
                 $TipoRecibo,
                 $Cantidad,
@@ -88,7 +90,8 @@ class GenerarReciboController extends Controller{
                 $Observaciones,
                 $Aeronave,
                 $Tarifa,
-                $TipoItinerario
+                $TipoItinerario,
+                $IdUsuarioEvento
             ]);
 
             // Si se desea, puedes devolver una respuesta con algún mensaje o los resultados
@@ -111,12 +114,14 @@ class GenerarReciboController extends Controller{
         try {
             // Validar los parámetros que esperamos recibir
             $validated = $request->validate([
-                'ids_movimientos' => 'required|string' // Validamos que venga como una cadena de texto
+                'ids_movimientos' => 'required|string', // Validamos que venga como una cadena de texto
+                'IdUsuarioEvento' => 'required|integer',  // El instructor es opcional
             ]);
 
             // Extraer y procesar los IDs de movimientos
             $idsMovimientos = explode(',', $validated['ids_movimientos']);
-
+            $IdUsuarioEvento = $validated['IdUsuarioEvento'];  // Puede ser null
+            
             // Validar que todos los elementos sean números enteros
             if (!collect($idsMovimientos)->every(fn($id) => is_numeric($id))) {
                 return response()->json([
@@ -125,7 +130,7 @@ class GenerarReciboController extends Controller{
             }
 
             // Llamar al procedimiento almacenado con los IDs
-            $result = DB::select('CALL ProcesarPagoRecibos(?)', [implode(',', $idsMovimientos)]);
+            $result = DB::select('CALL ProcesarPagoRecibos(?, ?)', [implode(',', $idsMovimientos),$IdUsuarioEvento]);
 
             // Devolver respuesta exitosa con el resultado
             return response()->json([
