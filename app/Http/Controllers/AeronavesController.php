@@ -37,7 +37,7 @@ class AeronavesController extends Controller
         'motor' => 'required|string|max:250',
         'aseguradora' => 'required|string|max:250',
         'numero_poliza' => 'required|string|max:250',
-        'vencimiento_poliza' => 'required|string|max:250',
+        'vencimiento_poliza' => 'required|date_format:Y-m-d',
     ]);
 
     // Extraer los datos validados

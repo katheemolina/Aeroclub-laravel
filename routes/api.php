@@ -76,7 +76,7 @@ Route::get('/obtenerTiposVuelos', [GenerarReciboController::class, 'obtenerTipos
 
 Route::get('/obtenerInstructores', [GenerarReciboController::class, 'obtenerInstructores']);
 
-Route::put('/generarRecibo', [GenerarReciboController::class, 'generarRecibo']);
+Route::post('/generarRecibo', [GenerarReciboController::class, 'generarRecibo']);
 
 Route::post('/pagarRecibo', [GenerarReciboController::class, 'pagarRecibos']);
 

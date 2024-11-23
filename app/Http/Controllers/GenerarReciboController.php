@@ -48,7 +48,7 @@ class GenerarReciboController extends Controller{
                 'TipoRecibo' => 'required|string|max:150',
                 'Cantidad' => 'required|numeric',
                 'Importe' => 'required|numeric',
-                'Fecha' => 'required|datetime',
+                'Fecha' => 'required|date_format:Y-m-d H:i:s',
                 'Instruccion' => 'required|integer',
                 'IdInstructor' => 'nullable|integer',  // El instructor es opcional
                 'Itinerarios' => 'required|integer',  // Número de itinerarios
