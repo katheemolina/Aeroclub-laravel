@@ -15,6 +15,8 @@ use App\Http\Controllers\IngresoController;
 
 use App\Http\Controllers\GenerarReciboController;
 
+use App\Http\Controllers\ServiciosAeronavesController;
+
 Route::get('aeronaves', [AeronavesController::class, 'obtenerAeronaves']); // Para obtener aeronaves
 Route::post('aeronaves', [AeronavesController::class, 'insertarAeronave']); // Para insertar aeronave
 //Route::put('aeronaves/{id}', [AeronavesController::class, 'actualizarAeronave']); // Actualizar aeronave
@@ -103,3 +105,12 @@ Route::put('/aeronaves/{id_aeronave}/cambiarEstado', [AeronavesController::class
 Route::put('/aeronaves/cambioPoliza', [AeronavesController::class, 'cambiarDatosPoliza']);
 
 Route::put('/aeronaves/actualizarIntervaloInspeccion', [AeronavesController::class, 'actualizarIntervaloInspeccion']);
+
+
+Route::put('/serviciosAeronaves/{id_aeronave}', [ServiciosAeronavesController::class, 'actualizarServicio']);
+
+Route::get('/serviciosAeronaves/{id_aeronave}', [ServiciosAeronavesController::class, 'obtenerServicios']);
+
+Route::post('/serviciosAeronaves', [ServiciosAeronavesController::class, 'insertarServicio']);
+
+
