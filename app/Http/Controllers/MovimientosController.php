@@ -24,6 +24,18 @@ class MovimientosController extends Controller
 
     return response()->json($result);
     }
+    
+    public function saldoCuentaCorrienteAeroclub()
+    {
+    // Pasar el parámetro dentro de la llamada al procedimiento
+    $result = DB::select('CALL SaldoCuentaCorrienteAeroclub()');
+
+    if (empty($result)) {
+        return response()->json(['message' => 'No se encontraron movimientos.'], 404);
+    }
+
+    return response()->json($result);
+    }
 
     /**
     * Devuelve todos los movimientos por usuario.
