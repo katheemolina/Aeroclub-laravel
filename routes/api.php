@@ -58,7 +58,7 @@ Route::get('/cuentaCorriente/{id_usuario}', [MovimientosController::class, 'cuen
 Route::get('/movimientos', [MovimientosController::class, 'obtenerTodosLosMovimientos']); //trae un listado total de movimientos
 Route::get('/movimientos/{id}/noPago', [MovimientosController::class, 'obtenerMovimientosNoPagos']);
 Route::get('/movimientosAeroclub', [MovimientosController::class, 'obtenerCuentaCorrienteAeroclub']); //trae un listado total de movimientos
-Route::get('/movimientosAeroclubDetalle', [MovimientosController::class, 'obtenerCuentaCorrienteAeroclubDetalle']); //trae un listado total de movimientos
+Route::get('/movimientosAeroclubDetalle/{referencia}', [MovimientosController::class, 'obtenerCuentaCorrienteAeroclubDetalle']); //trae un listado total de movimientos
 
 Route::get('/saldoAeroclub', [DashboardGestor::class, 'saldoCuentaCorrienteAeroclub']); //trae un listado total de movimientos
 Route::get('/horasUltimoMes', [DashboardGestor::class, 'horasVueloUltimoMes']); //trae un listado total de movimientos

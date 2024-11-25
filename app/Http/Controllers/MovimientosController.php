@@ -118,18 +118,15 @@ class MovimientosController extends Controller
     return response()->json($result);
     }
 
-    public function obtenerCuentaCorrienteAeroclubDetalle(Request $request)
+    public function obtenerCuentaCorrienteAeroclubDetalle($ReferenciaAeroclub)
 {
-    // Validar que se haya proporcionado el parámetro ReferenciaAeroclub
-    $request->validate([
-        'ReferenciaAeroclub' => 'required|integer',
-    ]);
-
-    // Obtener el valor de ReferenciaAeroclub desde el request
-    $referenciaAeroclub = $request->input('ReferenciaAeroclub');
+    // Validar que ReferenciaAeroclub sea un entero (opcional, ya que viene por la ruta)
+    if (!is_numeric($ReferenciaAeroclub)) {
+        return response()->json(['message' => 'El parámetro debe ser un número.'], 400);
+    }
 
     // Llamar al procedimiento almacenado pasando el parámetro ReferenciaAeroclub
-    $result = DB::select('CALL obtenerCuentaCorrienteAeroclubDetalles(?)', [$referenciaAeroclub]);
+    $result = DB::select('CALL obtenerCuentaCorrienteAeroclubDetalles(?)', [$ReferenciaAeroclub]);
 
     // Verificar si el resultado está vacío
     if (empty($result)) {
@@ -139,6 +136,7 @@ class MovimientosController extends Controller
     // Retornar el resultado en formato JSON
     return response()->json($result);
 }
+
 
 
 }
