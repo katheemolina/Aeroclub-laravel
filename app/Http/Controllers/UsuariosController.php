@@ -256,4 +256,22 @@ class UsuariosController extends Controller
         }
     }
 
+    public function MovimientosNoLiquidadosPorInstructor(Request $request)
+    {
+        // Llamada al procedimiento almacenado
+        try {
+            $result = DB::select('CALL MovimientosNoLiquidadosPorInstructor()');
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error al ejecutar el procedimiento: ' . $e->getMessage()], 500);
+        }
+
+        // Verificar si el resultado está vacío
+        if (empty($result)) {
+            return response()->json(['message' => 'No se encontraron instructores.'], 404);
+        }
+
+        // Retornar el resultado en formato JSON
+        return response()->json($result);
+    }
 }
+

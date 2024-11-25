@@ -71,6 +71,8 @@ Route::get('/recibos', [RecibosController::class, 'obtenerTodosLosRecibos']);
 
 //Rutas para instructor
 Route::get('/asociados', [UsuariosController::class, 'listarAsociados']); //
+Route::get('/movimientosNoLiquidadosPorInstructor', [UsuariosController::class, 'MovimientosNoLiquidadosPorInstructor']); //
+Route::post('/armarLiquidacion', [GenerarReciboController::class, 'armarLiquidacion']);
 Route::put('/modificarEstado/{usuarioId}', [UsuariosController::class, 'modificarEstadoAsociado']); //
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
