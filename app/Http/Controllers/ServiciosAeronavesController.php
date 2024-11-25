@@ -48,7 +48,7 @@ public function actualizarServicio(Request $request, $id)
 {
     // Validar los datos recibidos
     $validatedData = $request->validate([
-        'fecha' => 'required|date_format:Y-m-d H:i:s',
+        'fecha' => 'required|date_format:Y-m-d',
         'observaciones' => 'required|string|max:255',
     ]);
 
