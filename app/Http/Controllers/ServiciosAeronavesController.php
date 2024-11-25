@@ -49,27 +49,22 @@ public function actualizarServicio(Request $request, $id)
     // Validar los datos recibidos
     $validatedData = $request->validate([
         'fecha' => 'required|date_format:Y-m-d H:i:s',
-        'observaciones' => 'nullable|string|max:500',
+        'observaciones' => 'required|string|max:255',
     ]);
 
-    try {
-        // Llamada al procedimiento almacenado ModificarServicios
-        DB::statement('CALL ModificarServicios(?, ?, ?)', [
-            $id,  // ID del servicio que se pasa como parámetro en la URL
-            $validatedData['fecha'],
-            $validatedData['observaciones'] ?? null,  // Si no se proporciona observación, se pone null
-        ]);
+    // Llamada al procedimiento almacenado ModificarServicios
+    DB::statement('CALL ModificarServicios(?, ?, ?)', [
+        $id,  // ID del servicio que se pasa como parámetro en la URL
+        $validatedData['fecha'],
+       
+        $validatedData['observaciones'],
 
-        // Retornar una respuesta de éxito
-        return response()->json(['message' => 'Servicio actualizado correctamente.'], 200);
-    } catch (\Exception $e) {
-        // Manejo de errores
-        return response()->json([
-            'message' => 'Hubo un error al actualizar el servicio.',
-            'error' => $e->getMessage()
-        ], 500);
-    }
+    ]);
+
+    // Retornar una respuesta de éxito
+    return response()->json(['message' => 'Servicio actualizado correctamente.'], 200);
 }
+
 
 
 

@@ -115,7 +115,7 @@ Route::put('/aeronaves/cambioPoliza', [AeronavesController::class, 'cambiarDatos
 Route::put('/aeronaves/actualizarIntervaloInspeccion', [AeronavesController::class, 'actualizarIntervaloInspeccion']);
 
 
-Route::put('/serviciosAeronaves/{id_aeronave}', [ServiciosAeronavesController::class, 'actualizarServicio']);
+Route::put('/serviciosAeronaves/{id}', [ServiciosAeronavesController::class, 'actualizarServicio']);
 
 Route::get('/serviciosAeronaves/{id_aeronave}', [ServiciosAeronavesController::class, 'obtenerServicios']);
 
