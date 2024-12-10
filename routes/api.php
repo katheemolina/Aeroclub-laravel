@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConfiguracionesContoller;
 use App\Http\Controllers\DashboardGestor;
 use App\Http\Controllers\GenerarCuotasSocialesController;
 use Illuminate\Http\Request;
@@ -23,8 +24,8 @@ Route::post('aeronaves', [AeronavesController::class, 'insertarAeronave']); // P
 //Route::put('aeronaves/{id}', [AeronavesController::class, 'actualizarAeronave']); // Actualizar aeronave
 
 Route::get('tarifasCombustible', [TarifasController::class, 'obtenerTarifasCombustible']); // Para obtener las tarifas
-Route::get('tarifas', [TarifasController::class, 'obtenerTarifas']); // Para obtener las tarifas
 Route::post('tarifas', [TarifasController::class, 'insertarTarifa']); // Para insertar una nueva tarifa
+Route::get('tarifas', [TarifasController::class, 'obtenerTarifas']); // Para obtener las tarifas
 Route::put('tarifas/{id}', [TarifasController::class, 'actualizarTarifa']); 
 
 
@@ -122,3 +123,5 @@ Route::get('/serviciosAeronaves/{id_aeronave}', [ServiciosAeronavesController::c
 Route::post('/serviciosAeronaves', [ServiciosAeronavesController::class, 'insertarServicio']);
 
 
+Route::get('configuraciones', [ConfiguracionesContoller::class, 'obtenerConfiguraciones']);
+Route::put('configuracionesActualizar', [ConfiguracionesContoller::class, 'actualizarConfiguraciones']); 
