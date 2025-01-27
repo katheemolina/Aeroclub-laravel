@@ -132,3 +132,8 @@ Route::get('/contadoresDeCuentas', [DashboardGestor::class, 'contadoresDeCuentas
 
 
 Route::get('/obtenerUltimasCuentas', [DashboardGestor::class, 'obtenerUltimasCuentas']); 
+
+Route::get('/obtenerTopDeudores', [DashboardGestor::class, 'obtenerTopDeudores']); 
+
+Route::get('/obtenerHorasPorDiaAeronaves', [DashboardGestor::class, 'obtenerHorasPorDiaAeronaves']); 
+

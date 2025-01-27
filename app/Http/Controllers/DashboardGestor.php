@@ -72,6 +72,39 @@ class DashboardGestor extends Controller
         return response()->json($result);
     }
 
+    public function obtenerTopDeudores()
+    {
+        // Llama al procedimiento almacenado
+        $result = DB::select('CALL Top10Deudores()');
+
+        // Verifica si el resultado está vacío
+        if (empty($result)) {
+            return response()->json(['message' => 'No se encontraron deudores.'], 404);
+        }
+
+        // Retorna el resultado como JSON
+        return response()->json($result);
+    }
+
+    public function obtenerHorasPorDiaAeronaves()
+{
+    try {
+        // Llama al procedimiento almacenado
+        $result = DB::select('CALL GraficoHorasPorDiasAeronaves()');
+
+        // Verifica si el resultado está vacío
+        if (empty($result)) {
+            return response()->json(['message' => 'No se encontraron datos para el gráfico.'], 404);
+        }
+
+        // Retorna el resultado como JSON
+        return response()->json($result);
+    } catch (\Exception $e) {
+        // Manejo de errores
+        return response()->json(['message' => 'Error al obtener los datos', 'error' => $e->getMessage()], 500);
+    }
+}
+
 
 
 
