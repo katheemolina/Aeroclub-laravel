@@ -43,4 +43,36 @@ class DashboardGestor extends Controller
             ], 500);
         }
     }
+
+    public function contadoresDeCuentas()
+    {
+        // Llama al procedimiento almacenado
+        $result = DB::select('CALL ContadoresDeCuentas()');
+
+        // Verifica si el resultado está vacío
+        if (empty($result)) {
+            return response()->json(['message' => 'No se encontraron datos.'], 404);
+        }
+
+        // Retorna el resultado como JSON
+        return response()->json($result);
+    }
+
+    public function obtenerUltimasCuentas()
+    {
+        // Llama al procedimiento almacenado
+        $result = DB::select('CALL Ultimas10Cuentas()');
+
+        // Verifica si el resultado está vacío
+        if (empty($result)) {
+            return response()->json(['message' => 'No se encontraron cuentas recientes.'], 404);
+        }
+
+        // Retorna el resultado como JSON
+        return response()->json($result);
+    }
+
+
+
+
 }

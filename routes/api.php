@@ -125,3 +125,10 @@ Route::post('/serviciosAeronaves', [ServiciosAeronavesController::class, 'insert
 
 Route::get('configuraciones', [ConfiguracionesContoller::class, 'obtenerConfiguraciones']);
 Route::put('configuracionesActualizar', [ConfiguracionesContoller::class, 'actualizarConfiguraciones']); 
+
+
+Route::get('/contadoresDeCuentas', [DashboardGestor::class, 'contadoresDeCuentas']); 
+
+
+
+Route::get('/obtenerUltimasCuentas', [DashboardGestor::class, 'obtenerUltimasCuentas']); 
