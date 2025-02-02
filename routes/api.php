@@ -51,6 +51,7 @@ Route::put('/usuarios/{id}', [UsuariosController::class, 'actualizarDatosDelUsua
 
 //libro de vuelo
 Route::get('/vuelos/{id_usuario}/libroVuelo', [VuelosController::class, 'obtenerLibroDeVueloPorUsuario']);//obtiene el listado del libro de vuelo por usuario
+Route::get('/vuelos/{idUsuario}/indicadores', [VuelosController::class, 'totalesHorasVueloPorUsuario']); //kpis vuelos por usuario
 
 //cuenta corriente
 Route::get('/cuentaCorriente/{id_usuario}', [MovimientosController::class, 'cuentaCorrientePorUsuario']); //trae un listado de movimientos del usuario lo usamos en la ventana cuenta corriente

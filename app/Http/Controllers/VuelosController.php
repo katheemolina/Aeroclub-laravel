@@ -76,4 +76,17 @@ class VuelosController extends Controller
     return response()->json($result);
     }
 
+    public function totalesHorasVueloPorUsuario($idUsuario)
+    {
+        $result = DB::select('CALL TotalesHorasVueloPorUsuario(?)', [$idUsuario]);
+    
+        if (empty($result)) {
+            return response()->json(['message' => 'No se encontraron registros.'], 404);
+        }
+    
+        return response()->json($result);
+    }
+    
+
 }
+
