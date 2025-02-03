@@ -138,3 +138,4 @@ Route::get('/obtenerTopDeudores', [DashboardGestor::class, 'obtenerTopDeudores']
 
 Route::get('/obtenerHorasPorDiaAeronaves', [DashboardGestor::class, 'obtenerHorasPorDiaAeronaves']); 
 
+Route::post('/anular-recibo', [RecibosController::class, 'anularRecibo']);

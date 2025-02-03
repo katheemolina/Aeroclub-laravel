@@ -29,6 +29,30 @@ class RecibosController extends Controller{
 }
 
 
+public function anularRecibo(Request $request)
+{
+    // Validar la entrada
+    $request->validate([
+        'numero_recibo' => 'required|integer'
+    ]);
+
+    try {
+        // Llamada al procedimiento almacenado
+        $result = DB::select('CALL AnularRecibo(?)', [$request->numero_recibo]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'El recibo ha sido anulado correctamente.',
+            'data' => $result
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Error al anular el recibo: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
 }
 
 
