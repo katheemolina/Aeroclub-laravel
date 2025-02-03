@@ -273,5 +273,35 @@ class UsuariosController extends Controller
         // Retornar el resultado en formato JSON
         return response()->json($result);
     }
+
+    public function modificarTarifaEspecial(Request $request)
+    {
+        // Validar la entrada
+        $request->validate([
+            'id_usuario' => 'required|integer',
+            'modifica' => 'required|boolean'
+        ]);
+    
+        try {
+            // Llamada al procedimiento almacenado
+            $result = DB::select('CALL ModificarTarifaEspecial(?, ?)', [
+                $request->id_usuario,
+                $request->modifica
+            ]);
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Tarifa especial modificada correctamente.',
+                'data' => $result
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al modificar la tarifa especial: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
+
 }
 
