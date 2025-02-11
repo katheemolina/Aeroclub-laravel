@@ -30,7 +30,9 @@ Route::put('tarifas/{id}', [TarifasController::class, 'actualizarTarifa']);
 
 
 Route::put('/actualizar-usuario/{id}', [UsuariosController::class, 'actualizarDatosDelUsuario']);
-Route::put('/usuarios/{id}/licencias', [UsuariosController::class, 'actualizarLicencias']);
+Route::post('/licencias/actualizar', [UsuariosController::class, 'actualizarLicencia']);
+Route::post('/licencias/eliminar', [UsuariosController::class, 'eliminarLicencia']);
+
 
 
 //RUTAS PARA ASOCIADOS
@@ -142,3 +144,5 @@ Route::post('/anular-recibo', [RecibosController::class, 'anularRecibo']);
 
 
 Route::post('/usuario/tarifa-especial', [UsuariosController::class, 'modificarTarifaEspecial']);
+
+Route::get('/licencias', [UsuariosController::class, 'obtenerLicencias']);

@@ -303,5 +303,39 @@ class UsuariosController extends Controller
     }
     
 
+    public function obtenerLicencias()
+    {
+        // Ejecutar el procedimiento almacenado
+        $licencias = DB::select('CALL ObtenerLicencias()');
+
+        // Retornar los resultados en formato JSON
+        return response()->json($licencias);
+    }
+
+    public function actualizarLicencia(Request $request)
+{
+    $idUsuario = $request->input('id_usuario');
+    $idLicencia = $request->input('id_licencia');
+    $fechaVigencia = $request->input('fecha_vigencia');
+
+    // Ejecutar el procedimiento almacenado
+    DB::statement('CALL ActualizarLicencia(?, ?, ?)', [$idUsuario, $idLicencia, $fechaVigencia]);
+
+    return response()->json(['message' => 'Licencia actualizada correctamente']);
+}
+
+public function eliminarLicencia(Request $request)
+{
+    $idUsuario = $request->input('id_usuario');
+    $idLicencia = $request->input('id_licencia');
+
+    // Ejecutar el procedimiento almacenado
+    DB::statement('CALL EliminarLicencia(?, ?)', [$idUsuario, $idLicencia]);
+
+    return response()->json(['message' => 'Licencia eliminada correctamente']);
+}
+
+
+
 }
 
