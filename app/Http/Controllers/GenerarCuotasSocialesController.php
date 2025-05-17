@@ -13,19 +13,20 @@ class GenerarCuotasSocialesController extends Controller
         try {
             // Validar los parámetros que esperamos recibir
             $validated = $request->validate([
-                'mes' => 'required|string',        // El mes debe ser un texto (como "Noviembre")
-                'importe' => 'required|numeric',  // El importe debe ser un número
-                'id_usuario_evento' => 'required|integer', // El ID del usuario evento debe ser un número entero
-                'fecha_movimiento' => 'required|date', 
+                'mes' => 'required|string',
+                'anio' => 'required|string',
+                'importe' => 'required|numeric',
+                'id_usuario_evento' => 'required|integer',
             ]);
 
             // Llamar al procedimiento almacenado sp_generar_cuotas_sociales con los parámetros recibidos
             $result = DB::select('CALL GenerarCuotasSociales(?, ?, ?, ?)', [
                 $validated['mes'], 
+                $validated['anio'], 
                 $validated['importe'], 
-                $validated['id_usuario_evento'],
-                $validated['fecha_movimiento']
-            ]);            
+                $validated['id_usuario_evento']
+            ]);
+    
 
             // Devolver respuesta exitosa con el resultado
             return response()->json([
