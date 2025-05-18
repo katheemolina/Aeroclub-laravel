@@ -110,6 +110,8 @@ Route::post('/aeronave/eliminar', [AeronavesController::class, 'eliminarAeronave
 
 Route::post('/generarCuotasSociales', [GenerarCuotasSocialesController::class, 'generarCuotasSociales']);
 
+Route::get('/obtenerCSGeneradas', [GenerarCuotasSocialesController::class, 'obtenerCuotasSocialesGeneradas']);
+
 Route::get('/obtenerEstadoUsuario/{id}', [IngresoController::class, 'obtenerEstadoDelUsuario']); 
 
 Route::put('/aeronaves/{id_aeronave}/cambiarEstado', [AeronavesController::class, 'cambiarEstado']);

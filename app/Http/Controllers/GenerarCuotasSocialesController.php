@@ -62,4 +62,28 @@ class GenerarCuotasSocialesController extends Controller
             ], 500);
         }
     }
+    public function obtenerCuotasSocialesGeneradas()
+    {
+        try {
+            // Ejecutar el procedimiento almacenado sin parámetros
+            $result = DB::select('CALL ObetenerCSGeneradas()');
+
+            return response()->json([
+                'message' => 'Datos obtenidos correctamente.',
+                'data' => $result
+            ], 200);
+
+        } catch (\PDOException $e) {
+            return response()->json([
+                'error' => 'Error en la base de datos',
+                'message' => $e->getMessage()
+            ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error interno',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
