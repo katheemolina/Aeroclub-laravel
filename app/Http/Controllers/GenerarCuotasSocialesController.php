@@ -13,8 +13,8 @@ class GenerarCuotasSocialesController extends Controller
         try {
             // Validar los parámetros que esperamos recibir
             $validated = $request->validate([
-                'mes' => 'required|string',
-                'anio' => 'required|string',
+                'mes' => 'required|integer',
+                'anio' => 'required|integer',
                 'importe' => 'required|numeric',
                 'id_usuario_evento' => 'required|integer',
             ]);
